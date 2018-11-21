@@ -1,3 +1,7 @@
+// Cesium的Property机制总结 vtxf 20181120
+// 以下代码放在Cesium的SandCastle中可以直接运行
+// 文章在这里：https://www.jianshu.com/p/f0b47997224c
+
 var viewer = new Cesium.Viewer('cesiumContainer', {
     imageryProvider : Cesium.createTileMapServiceImageryProvider({
         url : Cesium.buildModuleUrl('Assets/Textures/NaturalEarthII')
