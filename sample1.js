@@ -168,23 +168,6 @@ Sandcastle.addToolbarButton('Composit', function () {
     blueBox.box.dimensions = compositeProperty;
 });
 
-Sandcastle.addToolbarButton('Reference', function () {
-    var collection = viewer.entities;
-    redBox.box.dimensions = new Cesium.ReferenceProperty(collection, blueBox.id, ['box', 'dimensions']);
-});
-
-Sandcastle.addToolbarButton('PropertyBag', function () {
-    var zp = new Cesium.SampledProperty(Number);
-    zp.addSample(Cesium.JulianDate.fromIso8601('2019-01-01T00:00:00.00Z'), 200000.0);
-    zp.addSample(Cesium.JulianDate.fromIso8601('2019-01-03T00:00:00.00Z'), 700000.0);
-    
-    blueBox.box.dimensions = new Cesium.PropertyBag({
-        x: 400000.0,
-        y: 300000.0,
-        z: zp
-    });
-});
-
 Sandcastle.addToolbarButton('ConstantPosition', function () {
     blueBox.position = new Cesium.ConstantPositionProperty(Cesium.Cartesian3.fromDegrees(-114.0, 45.0, 300000.0));
     // 以上代码等同于
@@ -220,4 +203,50 @@ Sandcastle.addToolbarButton('SampledColor', function () {
 
     blueBox.box.material = new Cesium.ColorMaterialProperty(colorProperty);
 });
+
+Sandcastle.addToolbarButton('Reference', function () {
+    var collection = viewer.entities;
+    redBox.box.dimensions = new Cesium.ReferenceProperty(collection, blueBox.id, ['box', 'dimensions']);
+});
+
+Sandcastle.addToolbarButton('PropertyBag', function () {
+    var zp = new Cesium.SampledProperty(Number);
+    zp.addSample(Cesium.JulianDate.fromIso8601('2019-01-01T00:00:00.00Z'), 200000.0);
+    zp.addSample(Cesium.JulianDate.fromIso8601('2019-01-03T00:00:00.00Z'), 700000.0);
+    
+    blueBox.box.dimensions = new Cesium.PropertyBag({
+        x: 400000.0,
+        y: 300000.0,
+        z: zp
+    });
+});
+
+Sandcastle.addToolbarButton('PropertyBag', function () {
+    var l = 200000.0;
+    var property = new Cesium.CallbackProperty(function (time, result) {
+        result = result || new Cesium.Cartesian3(0, 0, 0);
+
+        l += 10000.0;
+        if (l > 700000.0) {
+            l = 200000.0;
+        }
+
+        result.x = 400000.0;
+        result.y = 300000.0;
+        result.z = l;
+
+        return result;
+    }, false);
+    
+    blueBox.box.dimensions = property;
+});
+
+Sandcastle.addToolbarButton('VelocityVector', function () {
+    blueBox.billboard = {
+        image : 'https://upload-images.jianshu.io/upload_images/80648-5dfe8a3ea2c250be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/540/format/webp',
+        alignedAxis : new Cesium.VelocityVectorProperty(blueBox.position, true) // alignedAxis must be a unit vector
+    };
+});
+
+
 
