@@ -69,7 +69,7 @@ Sandcastle.addToolbarButton('Constant new', function () {
 });
 
 Sandcastle.addToolbarButton('Constant set', function () {
-    blueBox.box.dimensions.setValue(new Cesium.Cartesian3(400000.0, 300000.0, 700000.0));
+    blueBox.box.dimensions && blueBox.box.dimensions.setValue(new Cesium.Cartesian3(400000.0, 300000.0, 700000.0));
 });
 
 Sandcastle.addToolbarButton('Sampled', function () {
