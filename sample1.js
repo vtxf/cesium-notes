@@ -63,7 +63,9 @@ var redBox = viewer.entities.add({
 viewer.zoomTo(viewer.entities);
 
 Sandcastle.addToolbarButton('Constant new', function () {
-    blueBox.box.dimensions = new Cesium.Cartesian3(400000.0, 300000.0, 200000.0)
+    blueBox.box.dimensions = new ConstantProperty(new Cesium.Cartesian3(400000.0, 300000.0, 200000.0));
+    // 以上代码等同于
+    // blueBox.box.dimensions = new Cesium.Cartesian3(400000.0, 300000.0, 200000.0);
 });
 
 Sandcastle.addToolbarButton('Constant set', function () {
