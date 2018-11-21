@@ -89,25 +89,25 @@ Sandcastle.addToolbarButton('TimeIntervalCollection', function () {
         iso8601 : '2019-01-01T00:00:00.00Z/2019-01-01T12:00:00.00Z',
         isStartIncluded : true,
         isStopIncluded : false,
-        data : Cesium.Cartesian3(400000.0, 300000.0, 200000.0)
+        data : new Cesium.Cartesian3(400000.0, 300000.0, 200000.0)
     }));
     property.intervals.addInterval(Cesium.TimeInterval.fromIso8601({
-        iso8601 : '2019-01-01T12:00:00.00Z/2019-01-02T00:00:00.00Z',
+        iso8601 : '2019-01-01T12:00:01.00Z/2019-01-02T00:00:00.00Z',
         isStartIncluded : true,
         isStopIncluded : false,
-        data : Cesium.Cartesian3(400000.0, 300000.0, 400000.0)
+        data : new Cesium.Cartesian3(400000.0, 300000.0, 400000.0)
     }));
     property.intervals.addInterval(Cesium.TimeInterval.fromIso8601({
-        iso8601 : '2019-01-02T00:00:00.00Z/2019-01-02T12:00:00.00Z',
+        iso8601 : '2019-01-02T00:00:01.00Z/2019-01-02T12:00:00.00Z',
         isStartIncluded : true,
         isStopIncluded : false,
-        data : Cesium.Cartesian3(400000.0, 300000.0, 500000.0)
+        data : new Cesium.Cartesian3(400000.0, 300000.0, 500000.0)
     }));
     property.intervals.addInterval(Cesium.TimeInterval.fromIso8601({
-        iso8601 : '2019-01-02T12:00:00.00Z/2019-01-03T00:00:00.00Z',
+        iso8601 : '2019-01-02T12:00:01.00Z/2019-01-03T00:00:00.00Z',
         isStartIncluded : true,
         isStopIncluded : true,
-        data : Cesium.Cartesian3(400000.0, 300000.0, 700000.0)
+        data : new Cesium.Cartesian3(400000.0, 300000.0, 700000.0)
     }));
 
     blueBox.box.dimensions = property;
@@ -115,12 +115,12 @@ Sandcastle.addToolbarButton('TimeIntervalCollection', function () {
 
 Sandcastle.addToolbarButton('Composit', function () {
     // 1 sampledProperty
-    var sampledProperty = new Cesium.SampledProperty(Cesium.Cartesian2);
+    var sampledProperty = new Cesium.SampledProperty(Cesium.Cartesian3);
     sampledProperty.addSample(Cesium.JulianDate.fromIso8601('2019-01-01T00:00:00.00Z'), 
-                       Cesium.Cartesian3.fromDegrees(-115.0, 40.0, 300000.0));
+        new Cesium.Cartesian3(400000.0, 300000.0, 200000.0));
     
     sampledProperty.addSample(Cesium.JulianDate.fromIso8601('2019-01-02T00:00:00.00Z'), 
-                       Cesium.Cartesian3.fromDegrees(-113.0, 40.0, 300000.0));
+        new Cesium.Cartesian3(400000.0, 300000.0, 400000.0));
 
     // 2 ticProperty
     var ticProperty = new Cesium.TimeIntervalCollectionProperty();
@@ -128,25 +128,25 @@ Sandcastle.addToolbarButton('Composit', function () {
         iso8601 : '2019-01-02T00:00:00.00Z/2019-01-02T06:00:00.00Z',
         isStartIncluded : true,
         isStopIncluded : false,
-        data : Cesium.Cartesian3.fromDegrees(-113.0, 40.0, 300000.0)
+        data : new Cesium.Cartesian3(400000.0, 300000.0, 400000.0)
     }));
     ticProperty.intervals.addInterval(Cesium.TimeInterval.fromIso8601({
         iso8601 : '2019-01-02T06:00:00.00Z/2019-01-02T12:00:00.00Z',
         isStartIncluded : true,
         isStopIncluded : false,
-        data : Cesium.Cartesian3.fromDegrees(-112.0, 40.0, 300000.0)
+        data : new Cesium.Cartesian3(400000.0, 300000.0, 500000.0)
     }));
     ticProperty.intervals.addInterval(Cesium.TimeInterval.fromIso8601({
         iso8601 : '2019-01-02T12:00:00.00Z/2019-01-02T18:00:00.00Z',
         isStartIncluded : true,
         isStopIncluded : false,
-        data : Cesium.Cartesian3.fromDegrees(-111.0, 40.0, 300000.0)
+        data : new Cesium.Cartesian3(400000.0, 300000.0, 600000.0)
     }));
     ticProperty.intervals.addInterval(Cesium.TimeInterval.fromIso8601({
         iso8601 : '2019-01-02T18:00:00.00Z/2019-01-03T23:00:00.00Z',
         isStartIncluded : true,
         isStopIncluded : true,
-        data : Cesium.Cartesian3.fromDegrees(-110.0, 40.0, 300000.0)
+        data : new Cesium.Cartesian3(400000.0, 300000.0, 700000.0)
     }));
 
     // 3 compositeProperty
@@ -163,30 +163,59 @@ Sandcastle.addToolbarButton('Composit', function () {
     }));
 
     // 4 设置position
-    blueBox.position = compositeProperty;
+    blueBox.box.dimensions = compositeProperty;
 });
 
 Sandcastle.addToolbarButton('Reference', function () {
     var collection = viewer.entities;
-    redBox.position = new Cesium.ReferenceProperty(collection, blueBox.id, ['position']);
+    redBox.box.dimensions = new Cesium.ReferenceProperty(collection, blueBox.id, ['box', 'dimensions']);
 });
 
 Sandcastle.addToolbarButton('PropertyBag', function () {
-    redBox.show = false;
+    var zp = new Cesium.SampledProperty(Number);
+    zp.addSample(Cesium.JulianDate.fromIso8601('2019-01-01T00:00:00.00Z'), 200000.0);
+    zp.addSample(Cesium.JulianDate.fromIso8601('2019-01-03T00:00:00.00Z'), 700000.0);
     
-    var position = Cesium.Cartesian3.fromDegrees(-115.0, 40.0, 300000.0);
-    var position2 = Cesium.Cartesian3.fromDegrees(-110.0, 40.0, 300000.0);
-    
-    var xp = new Cesium.SampledProperty(Number);
-    xp.addSample(Cesium.JulianDate.fromIso8601('2019-01-01T00:00:00.00Z'), position.x);
-    xp.addSample(Cesium.JulianDate.fromIso8601('2019-01-03T00:00:00.00Z'), position2.x);
-    
-    blueBox.position = new Cesium.PropertyBag({
-        x: xp,
-        y: position.y,
-        z: position.z
+    blueBox.box.dimensions = new Cesium.PropertyBag({
+        x: 400000.0,
+        y: 300000.0,
+        z: zp
     });
 });
 
+Sandcastle.addToolbarButton('ConstantPosition', function () {
+    blueBox.position = new Cesium.ConstantPositionProperty(Cesium.Cartesian3.fromDegrees(-114.0, 45.0, 300000.0));
+    // 以上代码等同于
+    // blueBox.position = Cesium.Cartesian3.fromDegrees(-114.0, 45.0, 300000.0)
+});
 
+Sandcastle.addToolbarButton('SampledPosition', function () {
+    var property = new Cesium.SampledPositionProperty();
+
+    property.addSample(Cesium.JulianDate.fromIso8601('2019-01-01T00:00:00.00Z'), 
+        Cesium.Cartesian3.fromDegrees(-114.0, 40.0, 300000.0));
+    
+    property.addSample(Cesium.JulianDate.fromIso8601('2019-01-03T00:00:00.00Z'), 
+        Cesium.Cartesian3.fromDegrees(-114.0, 45.0, 300000.0));
+
+    blueBox.position = property;
+});
+
+Sandcastle.addToolbarButton('ColorMaterial', function () {
+    blueBox.box.material = new Cesium.ColorMaterialProperty(new Cesium.Color(0, 1, 0));
+    // 以上代码等同于
+    // blueBox.box.material = new Cesium.Color(0, 1, 0);
+});
+
+Sandcastle.addToolbarButton('SampledColor', function () {
+    var colorProperty = new Cesium.SampledProperty(Cesium.Color);
+
+    colorProperty.addSample(Cesium.JulianDate.fromIso8601('2019-01-01T00:00:00.00Z'), 
+        new Cesium.Color(0, 1, 0));
+    
+        colorProperty.addSample(Cesium.JulianDate.fromIso8601('2019-01-03T00:00:00.00Z'), 
+        new Cesium.Color(0, 0, 1));
+
+    blueBox.box.material = new Cesium.ColorMaterialProperty(colorProperty);
+});
 
